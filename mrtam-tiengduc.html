@@ -275,7 +275,8 @@ class TranscriptApp {
     
             let content = line.innerHTML
                 .replace(/<button[^>]*>.*?<\/button>/g, '')  
-                .replace(/<div class="result">.*?<\/div>/g, '')  
+                .replace(/<div class="result">.*?<\/div>/g, '')
+                .replace(/<div class="playback-container">.*?<\/div>/g, '')
                 .replace(/<br\s*\/?>/gi, '\n')
                 .replace(/\[\d+:\d+\]/g, '')
                 .replace(/\[VI\]/g, '')
@@ -324,33 +325,85 @@ class TranscriptApp {
     }
 
     startSpeechRecognition(div, expectedText) {
-        if (!('webkitSpeechRecognition' in window)) {
-            alert('Speech recognition not supported in this browser');
+        if (!('webkitSpeechRecognition' in window) || !navigator.mediaDevices) {
+            alert('Trình duyệt của bạn không hỗ trợ nhận dạng giọng nói hoặc ghi âm.');
             return;
         }
-        const recognition = new webkitSpeechRecognition();
-        recognition.lang = 'de-DE';
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
-        
+
+        // Xóa kết quả cũ và nút nghe lại (nếu có)
         const existingResult = div.querySelector('.result');
         if (existingResult) existingResult.remove();
-        
-        recognition.start();
+        const existingPlayback = div.querySelector('.playback-container');
+        if (existingPlayback) existingPlayback.remove();
 
-        recognition.onresult = (event) => {
-            const spokenText = event.results[0][0].transcript;
-            const cleanExpectedText = expectedText.replace(/\[.*?\]/g, '').trim();
-            const score = this.similarity(spokenText.toLowerCase(), cleanExpectedText.toLowerCase());
-            const resultEl = document.createElement('div');
-            resultEl.className = 'result';
-            resultEl.textContent = `You said: "${spokenText}" → Similarity: ${Math.round(score * 100)}%`;
-            div.appendChild(resultEl);
-        };
+        // 1. Xin quyền truy cập micro
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                // ---- BẮT ĐẦU PHẦN GHI ÂM ----
+                const mediaRecorder = new MediaRecorder(stream);
+                const audioChunks = [];
 
-        recognition.onerror = (event) => {
-            alert('Error occurred in recognition: ' + event.error);
-        };
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                // Khi ghi âm dừng lại
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+
+                    // Tạo nút "Nghe lại"
+                    const playbackContainer = document.createElement('div');
+                    playbackContainer.className = 'playback-container'; // Dùng để xóa lần sau
+                    
+                    const listenButton = document.createElement('button');
+                    listenButton.textContent = '▶️ Nghe lại';
+                    listenButton.style.marginTop = '5px'; // Thêm chút khoảng cách
+                    listenButton.onclick = () => {
+                        const audio = new Audio(audioUrl);
+                        audio.play();
+                    };
+                    
+                    playbackContainer.appendChild(listenButton);
+                    div.appendChild(playbackContainer);
+                };
+                
+                // Bắt đầu ghi âm
+                mediaRecorder.start();
+
+                // ---- BẮT ĐẦU PHẦN NHẬN DẠNG GIỌNG NÓI ----
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = 'de-DE';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+                
+                recognition.start();
+
+                // Dừng ghi âm khi nhận dạng giọng nói kết thúc
+                recognition.onend = () => {
+                    mediaRecorder.stop();
+                    stream.getTracks().forEach(track => track.stop()); // Tắt micro
+                };
+
+                recognition.onresult = (event) => {
+                    const spokenText = event.results[0][0].transcript;
+                    const cleanExpectedText = expectedText.replace(/\[.*?\]/g, '').trim();
+                    const score = this.similarity(spokenText.toLowerCase(), cleanExpectedText.toLowerCase());
+                    const resultEl = document.createElement('div');
+                    resultEl.className = 'result';
+                    resultEl.innerHTML = `Bạn nói: "<em>${spokenText}</em>" → Tương đồng: <b>${Math.round(score * 100)}%</b>`;
+                    div.appendChild(resultEl);
+                };
+
+                recognition.onerror = (event) => {
+                    alert('Lỗi nhận dạng giọng nói: ' + event.error);
+                    mediaRecorder.stop();
+                };
+            })
+            .catch(err => {
+                alert('Không thể truy cập micro. Vui lòng cấp quyền.');
+                console.error("Lỗi khi truy cập micro:", err);
+            });
     }
 
     similarity(s1, s2) {
