@@ -89,8 +89,8 @@
   let player;
   let transcriptData = [];
 
-let userScrolling = false;
-let scrollTimeout = null;
+  let userScrolling = false;
+  let scrollTimeout = null;
 
 
   function onYouTubeIframeAPIReady() {
@@ -247,30 +247,98 @@ document.addEventListener('dblclick', e => {
     document.execCommand(cmd, false, value);
   }
 
+  // ===== HÀM ĐƯỢC CẬP NHẬT =====
   function startSpeechRecognition(div, expectedText) {
-    if (!('webkitSpeechRecognition' in window)) {
-      alert('Speech recognition not supported in this browser');
+    if (!('webkitSpeechRecognition' in window) || !navigator.mediaDevices) {
+      alert('Trình duyệt của bạn không hỗ trợ nhận dạng giọng nói hoặc ghi âm.');
       return;
     }
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang = 'de-DE';
 
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    recognition.start();
+    // Xóa kết quả cũ và nút nghe lại (nếu có)
+    const oldResult = div.querySelector('.result');
+    if (oldResult) oldResult.remove();
+    const oldPlayback = div.querySelector('.playback-container');
+    if (oldPlayback) oldPlayback.remove();
 
-    recognition.onresult = function(event) {
-      const spokenText = event.results[0][0].transcript;
-      const score = similarity(spokenText.toLowerCase(), expectedText.replace(/\[.*?\]/g, '').toLowerCase());
-      const resultEl = document.createElement('div');
-      resultEl.className = 'result';
-      resultEl.textContent = `You said: "${spokenText}" → Similarity: ${Math.round(score * 100)}%`;
-      div.appendChild(resultEl);
-    };
+    // 1. Xin quyền truy cập micro
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        // ---- BẮT ĐẦU PHẦN GHI ÂM ----
+        const mediaRecorder = new MediaRecorder(stream);
+        const audioChunks = []; // Mảng để lưu các đoạn âm thanh
 
-    recognition.onerror = function(event) {
-      alert('Error occurred in recognition: ' + event.error);
-    };
+        mediaRecorder.ondataavailable = event => {
+          audioChunks.push(event.data);
+        };
+
+        // Khi ghi âm dừng lại
+        mediaRecorder.onstop = () => {
+          // Tạo một file âm thanh từ các đoạn đã ghi
+          const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+          const audioUrl = URL.createObjectURL(audioBlob);
+
+          // Tạo nút "Nghe lại"
+          const playbackContainer = document.createElement('div');
+          playbackContainer.className = 'playback-container'; // Dùng để xóa lần sau
+          
+          const listenButton = document.createElement('button');
+          listenButton.textContent = '▶️ Nghe lại';
+          listenButton.onclick = () => {
+            const audio = new Audio(audioUrl);
+            audio.play();
+          };
+          
+          playbackContainer.appendChild(listenButton);
+
+          // Thêm nút vào dưới kết quả
+          const resultEl = div.querySelector('.result');
+          if (resultEl) {
+            resultEl.insertAdjacentElement('afterend', playbackContainer);
+          } else {
+            div.appendChild(playbackContainer);
+          }
+        };
+        
+        // Bắt đầu ghi âm
+        mediaRecorder.start();
+
+        // ---- BẮT ĐẦU PHẦN NHẬN DẠNG GIỌNG NÓI (như cũ) ----
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'de-DE';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        
+        recognition.start();
+
+        // Dừng ghi âm khi nhận dạng giọng nói kết thúc
+        recognition.onend = () => {
+          mediaRecorder.stop();
+          // Tắt luồng micro để đèn báo trên trình duyệt tắt đi
+          stream.getTracks().forEach(track => track.stop()); 
+        };
+
+        recognition.onresult = function(event) {
+          const spokenText = event.results[0][0].transcript;
+          const score = similarity(spokenText.toLowerCase(), expectedText.replace(/\[.*?\]/g, '').toLowerCase());
+          
+          const resultEl = document.createElement('div');
+          resultEl.className = 'result';
+          resultEl.innerHTML = `Bạn nói: "<em>${spokenText}</em>" → Tương đồng: <b>${Math.round(score * 100)}%</b>`;
+          
+          div.appendChild(resultEl);
+        };
+
+        recognition.onerror = function(event) {
+          alert('Lỗi nhận dạng giọng nói: ' + event.error);
+          mediaRecorder.stop(); // Dừng ghi âm nếu có lỗi
+        };
+
+      })
+      .catch(err => {
+        // Xử lý lỗi nếu người dùng không cho phép truy cập micro
+        alert('Không thể truy cập micro. Vui lòng cấp quyền để sử dụng tính năng này.');
+        console.error("Lỗi khi truy cập micro:", err);
+      });
   }
 
   function similarity(s1, s2) {
@@ -315,8 +383,9 @@ function saveScripts() {
     const seconds = (time % 60).toString().padStart(2, '0');
 
     let content = line.innerHTML
-      .replace(/<button[^>]*>.*?<\/button>/g, '')  // bỏ nút 🎤
+      .replace(/<button[^>]*>.*?<\/button>/g, '')  // bỏ nút 🎤 và nút Nghe lại
       .replace(/<div class="result">.*?<\/div>/g, '')  // bỏ kết quả phát âm
+      .replace(/<div class="playback-container">.*?<\/div>/g, '') // bỏ container nút nghe lại
       .replace(/<br\s*\/?>/gi, '\n')  // chuyển <br> thành xuống dòng
       .replace(/<[^>]+>/g, '')        // xoá thẻ HTML
       .replace(/\n{2,}/g, '\n')       // xoá dòng trắng thừa
@@ -363,7 +432,6 @@ function loadScriptFile(event) {
   };
   reader.readAsText(file);
 }
-
 </script>
 </body>
 </html>
