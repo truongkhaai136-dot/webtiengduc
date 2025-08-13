@@ -372,46 +372,54 @@ document.addEventListener('dblclick', e => {
   }
 
 function saveScripts() {
-  const videoId = document.getElementById('videoIdInput').value.trim();
-  const lines = document.querySelectorAll('.line');
-  const deChunks = [];
-  const viChunks = [];
+    const videoId = document.getElementById('videoIdInput').value.trim();
+    const lines = document.querySelectorAll('.line');
+    const deChunks = [];
+    const viChunks = [];
 
-  for (const line of lines) {
-    const time = parseInt(line.dataset.time || '0');
-    const minutes = Math.floor(time / 60);
-    const seconds = (time % 60).toString().padStart(2, '0');
+    for (const line of lines) {
+        const time = parseInt(line.dataset.time || '0');
+        const minutes = Math.floor(time / 60);
+        const seconds = (time % 60).toString().padStart(2, '0');
 
-    let content = line.innerHTML
-      .replace(/<button[^>]*>.*?<\/button>/g, '')  // bỏ nút 🎤 và nút Nghe lại
-      .replace(/<div class="result">.*?<\/div>/g, '')  // bỏ kết quả phát âm
-      .replace(/<div class="playback-container">.*?<\/div>/g, '') // bỏ container nút nghe lại
-      .replace(/<br\s*\/?>/gi, '\n')  // chuyển <br> thành xuống dòng
-      .replace(/<[^>]+>/g, '')        // xoá thẻ HTML
-      .replace(/\n{2,}/g, '\n')       // xoá dòng trắng thừa
-      .trim();
+        // Lấy nội dung "sạch" bằng cách xóa các thẻ không cần thiết
+        let content = line.innerHTML
+            .replace(/<button[^>]*>.*?<\/button>/g, '')  // Bỏ nút 🎤 và nút Nghe lại
+            .replace(/<div class="result">.*?<\/div>/g, '')  // Bỏ kết quả phát âm
+            .replace(/<div class="playback-container">.*?<\/div>/g, '') // Bỏ container nút nghe lại
+            .replace(/<br\s*\/?>/gi, '\n')  // Chuyển <br> thành xuống dòng
+            .replace(/<[^>]+>/g, '')       // Xoá các thẻ HTML khác
+            .replace(/\n{2,}/g, '\n')       // Xoá dòng trắng thừa
+            .trim();
 
-    const block = `${minutes}:${seconds}\n${content}`;
+        // Ghép thời gian và nội dung thành một khối
+        let block;
 
-    if (line.classList.contains('user')) {
-      deChunks.push(block);
-    } else if (line.classList.contains('machine')) {
-      viChunks.push(block);
+        if (line.classList.contains('user')) { // Dòng tiếng Đức
+            // Xóa tiền tố [time] nếu có
+            const cleanContent = content.replace(/^\[\d+:\d{2}\]\s*/, '');
+            block = `${minutes}:${seconds}\n${cleanContent}`;
+            deChunks.push(block);
+        } else if (line.classList.contains('machine')) { // Dòng tiếng Việt
+            // Xóa tiền tố [VI] nếu có
+            const cleanContent = content.replace(/^\[VI\]\s*/, '');
+            block = `${minutes}:${seconds}\n${cleanContent}`;
+            viChunks.push(block);
+        }
     }
-  }
 
-  const blob = new Blob([JSON.stringify({
-    videoId,
-    deText: deChunks.join('\n\n'),
-    viText: viChunks.join('\n\n')
-  }, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify({
+        videoId,
+        deText: deChunks.join('\n\n'),
+        viText: viChunks.join('\n\n')
+    }, null, 2)], { type: 'application/json' });
 
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `transcript_${videoId || 'video'}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `transcript_${videoId || 'video'}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
 }
 
 
@@ -435,3 +443,4 @@ function loadScriptFile(event) {
 </script>
 </body>
 </html>
+
