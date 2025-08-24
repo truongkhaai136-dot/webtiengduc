@@ -1,0 +1,58 @@
+A: Hey B, du kommst gerade von der Arbeit? Siehst geschafft aus.
+B: Hallo A! Ja, war ein langer Tag. Viel zu tun.
+A: Ich hab dich letztens in so einer Serie gesehen, wie du da so Dinger auf die Brust von jemandem klebst. Was war das nochmal? Ein EKG?
+B: Genau, ein EKG. Genauer gesagt ein 12-Kanal-EKG.
+A: 12 Kanäle? Klingt wie beim Fernseher. Wofür ist das gut?
+B: Haha, der Vergleich ist gar nicht so schlecht. Stell dir das Herz wie einen Motor vor, der mit elektrischen Impulsen läuft. Das EKG ist quasi unser Diagnosegerät, das diese elektrischen "Zündfunken" aufzeichnet.
+A: Ah, also um zu sehen, ob der Motor rund läuft?
+B: Perfekt zusammengefasst. Wir können damit sehen, ob das Herz im richtigen Rhythmus schlägt, also keine Herzrhythmusstörungen hat.
+A: Und noch was?
+B: Ja, eine ganze Menge. Wir können auch erkennen, ob der Herzmuskel genug Sauerstoff bekommt. Wenn nicht, nennen wir das Myokardischämie.
+A: Ischämie... klingt ernst.
+B: Ist es auch. Das kann eine Vorstufe zum Herzinfarkt (Myokardinfarkt) sein. Den können wir im EKG oft auch direkt sehen.
+A: Krass. Und wie bereitet man das vor? Kann ich da einfach reinkommen und sagen: "Einmal EKG, bitte"?
+B: Nicht ganz. Wir brauchen natürlich eine Anordnung vom Arzt. Dann brauchen wir das EKG-Gerät, die Elektroden – das sind die "Dinger", die du meinst...
+A: Die Klebedinger?
+B: Genau, es gibt Klebeelektroden oder auch Saugelektroden. Die mit Sog halten manchmal besser.
+A: Und was schmiert ihr da drunter? Sieht immer so glibberig aus.
+B: Das ist Kontaktgel. Das ist superwichtig, damit die Elektrizität von der Haut gut zum Gerät geleitet wird. Ohne das Gel wären die Aufzeichnungen Murks.
+A: Verstehe. Und der Patient muss was machen?
+B: Der Patient sollte ganz ruhig und entspannt liegen. Am besten auf dem Rücken. Die Haut an den Stellen, wo die Elektroden hinkommen, muss sauber und trocken sein. Manchmal, bei sehr behaarten Männern, müssen wir sogar ein bisschen rasieren.
+A: Autsch! Okay, und wo kommen diese 12 "Kanäle" jetzt genau hin? Das sind doch nicht 12 Nadeln, oder?
+B: Gott bewahre, nein! Das sind nur 10 Elektroden, aus denen das Gerät dann 12 verschiedene Ansichten des Herzens berechnet. Vier kommen an die Arme und Beine.
+A: Okay, das ist ja überschaubar.
+B: Genau. Wir haben da eine einfache Regel, das "Ampelschema": rot, gelb, grün von oben nach unten am Körper.
+A: Ampelschema? Erzähl!
+B: RA (rechter Arm) ist rot. LA (linker Arm) ist gelb. LL (linkes Bein) ist grün.
+A: Rot, gelb, grün. Und das rechte Bein?
+B: RL (rechtes Bein) ist schwarz. Das ist die Erdung, der Neutraleiter. Der ist wichtig, um Störungen rauszufiltern.
+A: Wie der Blitzableiter am Haus?
+B: Exakt! Super Analogie. Damit haben wir schon mal vier Elektroden.
+A: Fehlen noch sechs. Für die Brust, nehme ich an?
+B: Richtig. Das sind die Brustwandableitungen, von V1 bis V6. Die haben eine ganz genaue Position.
+A: Oh oh, jetzt wird's kompliziert.
+B: Keine Sorge, das ist wie Malen nach Zahlen. V1 kommt in den 4. Zwischenrippenraum rechts neben das Brustbein.
+A: Und woher weißt du, wo der 4. ist? Zählst du die Rippen?
+B: Ja, genau das tue ich. Mit ein bisschen Übung findet man den ganz schnell. V2 kommt genau gegenüber, also auch im 4. Zwischenrippenraum, aber links neben das Brustbein.
+A: Okay, V1 rechts, V2 links. Logisch.
+B: Dann kommt erstmal V4. Der kommt in den 5. Zwischenrippenraum, und zwar auf einer gedachten Linie, die von der Mitte des Schlüsselbeins nach unten geht – die Medioklavikularlinie.
+A: Warum lässt du V3 aus?
+B: Weil V3 genau zwischen V2 und V4 platziert wird. So ist der Abstand immer perfekt.
+A: Clever. Fehlen noch zwei.
+B: Genau. V5 kommt auf die gleiche Höhe wie V4, aber weiter seitlich, an der vorderen Achsellinie.
+A: Also quasi am Anfang der Achselhöhle?
+B: Kann man so sagen. Und V6 kommt auch auf die gleiche Höhe, aber noch ein Stück weiter, an der mittleren Achsellinie, also direkt unter der Mitte der Achselhöhle.
+A: Puh, das ist ja eine Wissenschaft für sich. Und dann drückt man einfach auf "Start"?
+B: Genau. Aber dann kommt der spannende Teil. Man muss auf Artefakte achten.
+A: Arte-was?
+B: Artefakte. Das sind Störungen im EKG-Bild. Das sieht dann ganz zittrig und unleserlich aus.
+A: Und woher kommen die?
+B: Meistens, weil der Patient sich bewegt, hustet oder spricht. Manchmal auch durch Muskelzittern, wenn jemandem kalt ist. Oder wenn eine Elektrode nicht richtig klebt.
+A: Was machst du dann?
+B: Zuerst beruhige ich den Patienten und erkläre ihm nochmal, dass er ganz ruhig liegen muss. Das nennt man Anleitung. Viele sind nervös, das ist normal. Ich sage dann immer: "Einfach entspannt atmen, es tut nicht weh und ist in einer Minute vorbei."
+A: Das hilft bestimmt.
+B: Meistens ja. Wenn die Kurve dann sauber ist, drucke ich es aus. Und dann kommt die Dokumentation. Ganz, ganz wichtig bei uns.
+A: Was schreibst du da alles auf?
+B: Datum, Uhrzeit, den Namen des Patienten natürlich, und ob er irgendwelche Beschwerden hatte, z.B. Brustschmerzen. Und dann meine Unterschrift.
+A: Und dann? Gibst du es dem Arzt?
+B: Genau. Meine Rolle als Pflegekraft ist die Vorbereitung, das korrekte Anlegen der Elektroden, die Durchführung und die Dokumentation. Die finale Auswertung und Diagnose macht der Arzt. Aber wenn ich etwas ganz Offensichtliches sehe, wie extremes Herzrasen, sage ich natürlich sofort Bescheid.

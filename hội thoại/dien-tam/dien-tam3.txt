@@ -1,0 +1,28 @@
+A: Du hast doch auch auf der Intensivstation gearbeitet, oder? Da hängen die Leute ja an riesigen Maschinen, die ständig piepen. Was wird da eigentlich alles überwacht?
+B: Ja, das ist das Monitoring. Das ist quasi die Dauerüberwachung der Lebensfunktionen. Wir sind da die Augen und Ohren für den Arzt.
+A: Was ist das Wichtigste, was da angezeigt wird?
+B: Das Herzstück ist das EKG, also die Herzfrequenz und der Rhythmus. Anders als beim 12-Kanal-EKG kleben da aber meist nur 3 oder 5 Elektroden dauerhaft auf der Brust. Wir sehen also permanent, ob das Herz regelmäßig schlägt oder ob es gefährliche Rhythmusstörungen gibt.
+A: Okay, die Herzkurve kenne ich aus dem Fernsehen. Und dieses Ding am Finger?
+B: Das ist ein Pulsoxymeter. Das misst die SpO₂, also die Sauerstoffsättigung im Blut.
+A: Und was ist ein normaler Wert?
+B: Alles über 95% ist super. Wenn der Wert unter 90% fällt, wird es kritisch, dann bekommt der Patient nicht genug Sauerstoff.
+A: Dann gibt es noch den Blutdruck, oder?
+B: Genau. Den Blutdruck können wir auf zwei Arten messen. Einmal nicht-invasiv (NIBP) mit einer Manschette am Arm, die sich automatisch alle 5, 10 oder 15 Minuten aufpumpt.
+A: So wie beim Hausarzt.
+B: Richtig. Aber bei sehr kranken Patienten brauchen wir den Wert von Sekunde zu Sekunde. Dann messen wir invasiv (IBP).
+A: Invasiv? Das klingt, als wäre es IM Körper.
+B: Ist es auch. Dafür legt der Arzt eine arterielle Kanüle, einen kleinen Katheter, in eine Arterie, meist am Handgelenk. Daran wird ein Drucksensor angeschlossen und wir sehen auf dem Monitor die Blutdruckkurve in Echtzeit.
+A: Heftig. Was noch?
+B: Die Atmung (Respiration). Wir sehen die Atemfrequenz, also wie oft der Patient pro Minute atmet, und oft auch eine Kurve, die die Atemzüge anzeigt.
+A: Und als Pflegekraft stehst du da und schaust die ganze Zeit auf den Monitor?
+B: Meine Rolle als Pflegekraft ist, die Sensoren korrekt anzubringen, die Werte zu beobachten und vor allem: auf Alarme zu reagieren.
+A: Ah, das berühmte Piepen!
+B: Genau. Das ist das Alarmmanagement. Wir stellen für jeden Patienten individuelle Alarmgrenzen ein. Zum Beispiel: alarmiere, wenn die Herzfrequenz (HR) über 120 Schläge/min steigt oder wenn die Sauerstoffsättigung (SpO₂) unter 90% fällt.
+A: Und wenn es piept, rennt ihr los?
+B: Ja. Und das Wichtigste ist: Man darf Alarme niemals einfach ausstellen! Man muss immer die Ursache finden und behandeln.
+A: Kann das auch mal Fehlalarm sein?
+B: Ständig! Das sind dann wieder die Artefakte. Wenn der Patient zittert oder sich stark bewegt, kann die SpO₂-Kurve schlecht sein und das Gerät alarmiert, obwohl alles okay ist. Oder eine EKG-Elektrode löst sich.
+A: Was machst du dann?
+B: Hingehen, den Patienten anschauen, die Sensoren überprüfen und die Situation neu bewerten. Die Pflege von kritisch kranken Menschen bedeutet: Schau immer zuerst auf den Patienten, dann auf den Monitor. Der Monitor ist nur ein Hilfsmittel.
+A: Und die Dokumentation? Macht das der Computer selbst?
+B: Ja, bei der Intensivüberwachung wird das meiste automatisch in einer Kurve dokumentiert. Aber alle unsere Handlungen, Medikamentengaben oder besonderen Vorkommnisse tragen wir natürlich von Hand oder am PC zusätzlich ein.
