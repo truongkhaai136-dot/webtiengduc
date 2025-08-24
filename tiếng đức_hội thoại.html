@@ -94,8 +94,6 @@
         .review-line.user { background-color: #d1e7dd; font-weight: 500;}
         .play-recording-btn { background-color: #fd7e14; padding: 6px 12px; font-size: 0.9rem; }
         .play-recording-btn:hover { background-color: #e46e0e; }
-        #restart-btn { background-color: #6c757d; }
-        #restart-btn:hover { background-color: #5a6268; }
         #play-all-btn { background-color: #0dcaf0; }
         #play-all-btn:hover { background-color: #0aa8c2; }
         .settings-grid {
@@ -276,7 +274,8 @@
             <div id="review-content"></div>
             <div class="controls" style="margin-top: 20px;">
                 <button id="play-all-btn">▶️ Nghe lại toàn bộ</button>
-                <button id="restart-btn">Luyện tập lại</button>
+                <button id="restart-session-btn">🔁 Luyện tập lại hội thoại này</button>
+                <button id="choose-new-btn" style="background-color: #6c757d;">🏠 Chọn hội thoại khác</button>
             </div>
         </div>
     </div>
@@ -288,7 +287,7 @@
             const repo = 'webtiengduc';
             const baseFolderPath = 'hoi-thoai';
             const conversationContainer = document.getElementById('danh-sach-hoi-thoai');
-            const dialogueInput = document.getElementById('dialogue-input'); // DÙNG CHUNG CHO CẢ 2 CHỨC NĂNG
+            const dialogueInput = document.getElementById('dialogue-input'); 
 
             let fileList = [];
 
@@ -399,8 +398,9 @@
             const sessionControlsArea = document.getElementById('session-controls-area');
             const reviewArea = document.getElementById('review-area');
             const reviewContent = document.getElementById('review-content');
-            const restartBtn = document.getElementById('restart-btn');
             const playAllBtn = document.getElementById('play-all-btn');
+            const restartSessionBtn = document.getElementById('restart-session-btn');
+            const chooseNewBtn = document.getElementById('choose-new-btn');
             const rewardsInput = document.getElementById('rewards-input');
             const penaltiesInput = document.getElementById('penalties-input');
             const scoreArea = document.getElementById('score-area');
@@ -794,7 +794,7 @@
                 interimTranscriptArea.textContent = interim_transcript;
                 silenceTimeout = setTimeout(() => {
                     recognition.stop();
-                }, 3000);
+                }, 5000); // <-- TĂNG THỜI GIAN CHỜ LÊN 5 GIÂY
             };
             
             recognition.onend = () => {
@@ -822,7 +822,12 @@
                 interimTranscriptArea.style.display = 'none';
             };
             
-            restartBtn.addEventListener('click', () => { 
+            // SỰ KIỆN CHO CÁC NÚT MỚI
+            restartSessionBtn.addEventListener('click', () => {
+                startPractice();
+            });
+
+            chooseNewBtn.addEventListener('click', () => {
                 reviewArea.style.display = 'none'; 
                 initialSetup.style.display = 'block'; 
                 practiceArea.style.display = 'none'; 
@@ -834,7 +839,6 @@
                 linesA = []; linesB = []; userRecordings = []; currentLineIndex = 0; 
                 score = 100;
                 updateScoreDisplay();
-                // Reset the file list container too
                 if (conversationContainer) {
                     conversationContainer.style.display = 'block';
                 }
@@ -844,7 +848,8 @@
             
             playAllBtn.addEventListener('click', async () => {
                 playAllBtn.disabled = true; 
-                restartBtn.disabled = true; 
+                restartSessionBtn.disabled = true;
+                chooseNewBtn.disabled = true;
                 document.querySelectorAll('.play-recording-btn').forEach(btn => btn.disabled = true);
                 statusArea.textContent = 'Đang phát lại toàn bộ hội thoại...'; 
                 statusArea.className = 'status';
@@ -869,7 +874,8 @@
                     statusArea.className = 'status error';
                 } finally {
                     playAllBtn.disabled = false; 
-                    restartBtn.disabled = false; 
+                    restartSessionBtn.disabled = false;
+                    chooseNewBtn.disabled = false;
                     document.querySelectorAll('.play-recording-btn').forEach(btn => btn.disabled = false);
                     statusArea.innerHTML = '🎉 Phát lại hoàn tất! 🎉';
                     statusArea.className = 'status success';
