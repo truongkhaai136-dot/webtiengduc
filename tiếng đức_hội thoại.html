@@ -166,6 +166,34 @@
             justify-content: center;
             gap: 8px;
         }
+        /* Thêm đoạn này vào trong thẻ <style> của bạn */
+
+#danh-sach-hoi-thoai {
+    text-align: left;
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+#danh-sach-hoi-thoai h2 {
+    margin-top: 0;
+    border-bottom: none;
+    font-size: 1.1rem;
+}
+
+.file-button {
+    background-color: #0d6efd;
+    margin: 5px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    text-transform: capitalize;
+}
+
+.file-button:hover {
+    background-color: #0b5ed7;
+}
     </style>
 </head>
 <body>
@@ -813,82 +841,7 @@
                 console.log("Đã tải âm thanh thất bại:", failureAudioURL);
             }
         });
-document.addEventListener('DOMContentLoaded', function() {
-    const owner = 'truongkhaai136-dot';
-    const repo = 'webtiengduc';
-    const baseFolderPath = 'hoi-thoai'; // Thư mục gốc để bắt đầu quét
-    const conversationContainer = document.getElementById('danh-sach-hoi-thoai');
 
-    // Hàm đệ quy để lấy file từ một đường dẫn cụ thể
-    function fetchConversationsFromPath(path) {
-        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Lỗi khi truy cập: ${path}`);
-                }
-                return response.json();
-            })
-            .then(items => {
-                // Sắp xếp để thư mục luôn ở trên, file ở dưới
-                items.sort((a, b) => {
-                    if (a.type === 'dir' && b.type !== 'dir') return -1;
-                    if (a.type !== 'dir' && b.type === 'dir') return 1;
-                    return a.name.localeCompare(b.name);
-                });
-
-                for (const item of items) {
-                    if (item.type === 'dir') {
-                        // Nếu là thư mục, gọi lại hàm này với đường dẫn của thư mục con
-                        fetchConversationsFromPath(item.path);
-                    } else if (item.type === 'file' && item.name.endsWith('.txt')) {
-                        // Nếu là file .txt, lấy nội dung và hiển thị
-                        fetch(item.download_url)
-                            .then(response => response.text())
-                            .then(content => {
-                                // Tạo tiêu đề đẹp hơn, bao gồm cả tên thư mục cha
-                                // Ví dụ: "hoi-thoai/dien-tam/bai-1.txt" -> "Dien Tam / Bai 1"
-                                const titleText = item.path
-                                    .replace(baseFolderPath + '/', '') // Xóa tên thư mục gốc
-                                    .replace('.txt', '')             // Xóa đuôi file
-                                    .replace(/\//g, ' / ')          // Thay "/" bằng " / "
-                                    .replace(/-/g, ' ')             // Thay "-" bằng khoảng trắng
-                                    .replace(/_/g, ' ');            // Thay "_" bằng khoảng trắng
-
-                                const conversationElement = document.createElement('div');
-                                conversationElement.classList.add('hoi-thoai-item');
-                                conversationElement.style.borderLeft = "4px solid #0d6efd"; // Thêm style để dễ phân biệt
-                                conversationElement.style.marginTop = "15px";
-
-                                const title = document.createElement('h3');
-                                title.textContent = titleText;
-                                title.style.textTransform = "capitalize";
-
-                                const preformattedContent = document.createElement('pre');
-                                preformattedContent.textContent = content;
-
-                                conversationElement.appendChild(title);
-                                conversationElement.appendChild(preformattedContent);
-                                conversationContainer.appendChild(conversationElement);
-                            })
-                            .catch(error => console.error(`Lỗi tải file ${item.name}:`, error));
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Không thể lấy danh sách file:', error);
-                // Có thể thêm thông báo lỗi ra màn hình nếu muốn
-            });
-    }
-
-    // Bắt đầu quá trình quét từ thư mục gốc
-    if (conversationContainer) {
-        fetchConversationsFromPath(baseFolderPath);
-    } else {
-        console.error("Lỗi: Không tìm thấy phần tử có ID 'danh-sach-hoi-thoai' trong HTML.");
-    }
-});
     </script>
 </body>
 </html>
