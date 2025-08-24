@@ -813,7 +813,57 @@
                 console.log("Đã tải âm thanh thất bại:", failureAudioURL);
             }
         });
+document.addEventListener('DOMContentLoaded', function() {
+    const owner = 'truongkhaai136-dot';
+    const repo = 'webtiengduc';
+    const path = 'hoi-thoai';
+    const conversationContainer = document.getElementById('danh-sach-hoi-thoai');
 
+    // URL để gọi API GitHub, lấy danh sách file trong thư mục 'hoi-thoai'
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+    // 1. Lấy danh sách các file hội thoại
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Không thể kết nối tới GitHub API. Status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(files => {
+            // Lặp qua từng file nhận được
+            files.forEach(file => {
+                // Chỉ lấy các file có đuôi .txt
+                if (file.type === 'file' && file.name.endsWith('.txt')) {
+                    // 2. Với mỗi file, lấy nội dung của nó
+                    // GitHub API trả về một 'download_url' để truy cập nội dung thô (raw content)
+                    fetch(file.download_url)
+                        .then(response => response.text())
+                        .then(content => {
+                            // 3. Hiển thị nội dung lên trang web
+                            const conversationElement = document.createElement('div');
+                            conversationElement.classList.add('hoi-thoai-item'); // Thêm class để CSS cho đẹp
+
+                            const title = document.createElement('h3');
+                            // Lấy tên file làm tiêu đề (bỏ đuôi .txt)
+                            title.textContent = file.name.replace('.txt', '').replace(/_/g, ' '); 
+
+                            const preformattedContent = document.createElement('pre');
+                            preformattedContent.textContent = content;
+
+                            conversationElement.appendChild(title);
+                            conversationElement.appendChild(preformattedContent);
+                            conversationContainer.appendChild(conversationElement);
+                        })
+                        .catch(error => console.error('Lỗi khi tải nội dung file:', file.name, error));
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Lỗi khi lấy danh sách file:', error);
+            conversationContainer.innerHTML = '<p>Không thể tải danh sách hội thoại. Vui lòng thử lại sau.</p>';
+        });
+});
     </script>
 </body>
 </html>
