@@ -794,7 +794,7 @@
                 interimTranscriptArea.textContent = interim_transcript;
                 silenceTimeout = setTimeout(() => {
                     recognition.stop();
-                }, 2500);
+                }, 9000);
             };
             
             recognition.onend = () => {
