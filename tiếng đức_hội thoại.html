@@ -794,7 +794,7 @@
                 interimTranscriptArea.textContent = interim_transcript;
                 silenceTimeout = setTimeout(() => {
                     recognition.stop();
-                }, 5000); // <-- TĂNG THỜI GIAN CHỜ LÊN 5 GIÂY
+                }, 3000); // <-- TĂNG THỜI GIAN CHỜ LÊN 5 GIÂY
             };
             
             recognition.onend = () => {
